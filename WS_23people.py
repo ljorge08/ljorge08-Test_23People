@@ -105,8 +105,55 @@ class peopleId(Resource):
             print("Can't response get_id the request ")
 
     # Creating the put method
+    def put(self, national_id):
+        try:
+            header = str(request.headers).upper()
+            c_type = header.find("CONTENT-TYPE: APPLICATION/JSON")
+            if 0 <= c_type:
+                conn = db_connect()
+                cur = conn.cursor(mysql.cursors.DictCursor)
+                # Checking if the user is in the DB
+                query = "select id, nationalId, name, lastName, age, originPlanet, PictureURL from users" \
+                        " where nationalId='{0}';".format(national_id)
+                cur.execute(query)
+                rows = cur.fetchall()
+                num_fields = len(rows)
+                # If the user is the DB
+                if num_fields > 0:
+                    firts_name = request.json['name']
+                    last_name = request.json['lastName']
+                    user_age = request.json['age']
+                    origin_planet = request.json['originPlanet']
+                    picture_url = request.json['PictureURL']
+                    cur = conn.cursor(mysql.cursors.DictCursor)
+                    query = "update user set name={1}, lastName={2}, age={3}, originPlanet={4}, PictureURL={5} where nationalId={0}" \
+                        .format(national_id, firts_name, last_name, user_age, origin_planet, picture_url)
+                    print("Printing update query")
+                    print(query)
+                    cur.execute(query)
+                    message = {'status': 200, 'message': "Put executed..." + request.url}
+                    resp = jsonify(message)
+                    return resp
+                else:
+                    print("The user is not in the Database")
+                    message = {'status': 404,
+                               'message': "The user is not in the Database..." + request.url}
+                    resp = jsonify(message)
+                    return resp
 
+            else:
+                print("The Post must have a header CONTENT-TYPE: APPLICATION/JSON")
+                message = {'status': 400,
+                    'message': "The Put must have a header Content-Type: application/json..." + request.url}
+                resp = jsonify(message)
+                return resp
 
+        except:
+            print("Can't response the put the request")
+            message = {'status': 500,
+                       'message': "Can't response the put the request, please check your request..." + request.url}
+            resp = jsonify(message)
+            return resp
 
 api.add_resource(People, '/people')
 api.add_resource(peopleId, '/people/<national_id>')
