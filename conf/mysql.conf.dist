@@ -1,0 +1,5 @@
+[files]
+mysql_host = "x.x.x.x"
+mysql_user = "~"
+mysql_pass = "~"
+mysql_database = "~"
