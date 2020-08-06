@@ -78,10 +78,41 @@ class People(Resource):
                 return resp
 
 
+## Creating the People/National_id class with the GET, PUT and DELETE methods
+class peopleId(Resource):
+    def get(self, national_id):
+        try:
+            conn = db_connect()
+            cur = conn.cursor(mysql.cursors.DictCursor)
+            query = "select id, nationalId, name, lastName, age, originPlanet, PictureURL from users" \
+                        " where nationalId='{0}';".format(national_id)
+            cur.execute(query)
+            rows = cur.fetchall()
+            num_fields = len(rows)
+            # If the user is in the data base
+            if num_fields > 0:
+                resp = jsonify(rows)
+                resp.status_code = 200
+                return resp
+            else:
+                print("The user is not in the Database")
+                message = {'status': 404,
+                           'message': "The user is not in the Database..." + request.url}
+                resp = jsonify(message)
+                return resp
+
+        except:
+            print("Can't response get_id the request ")
+
+    # Creating the put method
+
+
+
 api.add_resource(People, '/people')
+api.add_resource(peopleId, '/people/<national_id>')
 
 ## RUN
 
 if __name__ == "__main__":
     print("Starting Web Service")
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    app.run(host="127.0.0.1", port=5000)
