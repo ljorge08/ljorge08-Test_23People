@@ -16,7 +16,8 @@ api = Api(app)
 def db_connect():
     try:
         conn = mysql.connect(
-            read_default_file='conf/mysql.conf' ## This is to hide the password configuration
+            read_default_file='conf/mysql.conf',  ## This is to hide the password configuration
+            autocommit = True
         )
         print("Conectado a la base de datos")
         return conn
@@ -54,6 +55,7 @@ class People(Resource):
                     user_age = request.json['age']
                     origin_planet = request.json['originPlanet']
                     picture_url = request.json['PictureURL']
+
                     cur = conn.cursor(mysql.cursors.DictCursor)
                     query = "insert into users (nationalId, name, lastName, age, originPlanet, PictureURL)" \
                             " values ('{0}','{1}','{2}',{3},'{4}','{5}'" \
@@ -125,8 +127,8 @@ class peopleId(Resource):
                     user_age = request.json['age']
                     origin_planet = request.json['originPlanet']
                     picture_url = request.json['PictureURL']
-                    cur = conn.cursor(mysql.cursors.DictCursor)
-                    query = "update user set name={1}, lastName={2}, age={3}, originPlanet={4}, PictureURL={5} where nationalId={0}" \
+                    query = "update users set name='{1}', lastName='{2}', age={3}, originPlanet='{4}', PictureURL='{5}'" \
+                            " where nationalId='{0}';" \
                         .format(national_id, firts_name, last_name, user_age, origin_planet, picture_url)
                     print("Printing update query")
                     print(query)
