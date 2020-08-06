@@ -157,6 +157,43 @@ class peopleId(Resource):
             resp = jsonify(message)
             return resp
 
+    # Creating de delete method
+    def delete(self, national_id):
+        try:
+            conn = db_connect()
+            cur = conn.cursor(mysql.cursors.DictCursor)
+            # Checking if the user is in the DB
+            query = "select id, nationalId, name, lastName, age, originPlanet, PictureURL from users" \
+                    " where nationalId='{0}';".format(national_id)
+            cur.execute(query)
+            rows = cur.fetchall()
+            num_fields = len(rows)
+            # If the user is the DB
+            if num_fields > 0:
+                query = "delete from users" \
+                        " where nationalId='{0}';".format(national_id)
+                print("Printing update query")
+                print(query)
+                cur.execute(query)
+                message = {'status': 200, 'message': "Delete executed..." + request.url}
+                resp = jsonify(message)
+                return resp
+            else:
+                print("The user is not in the Database")
+                message = {'status': 404,
+                            'message': "The user is not in the Database..." + request.url}
+                resp = jsonify(message)
+                return resp
+
+
+        except:
+            print("Can't response the put the request")
+            message = {'status': 500,
+                       'message': "Can't response the put the request, please check your request..." + request.url}
+            resp = jsonify(message)
+            return resp
+
+
 api.add_resource(People, '/people')
 api.add_resource(peopleId, '/people/<national_id>')
 
