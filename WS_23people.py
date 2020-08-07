@@ -62,20 +62,20 @@ class People(Resource):
                             ");".format(national_id, firts_name, last_name, user_age, origin_planet, picture_url)
                     print(query)
                     cur.execute(query)
-                    message = {'status': 201, 'message': "Person created..." + request.url}
+                    message = {'status': 201, 'message': "Person created..." }
                     resp = jsonify(message)
                     return resp
                 except:
                     print("Can't response the post the request")
                     message = {'status': 500,
-                               'message': "Can't response the post the request, please check your request..." + request.url}
+                               'message': "Can't response the post the request, please check your request..." }
                     resp = jsonify(message)
                     return resp
 
             else:
                 print("The Post must have a header CONTENT-TYPE: APPLICATION/JSON")
                 message = {'status': 400,
-                           'message': "The Post must have a header Content-Type: application/json..." + request.url}
+                           'message': "The Post must have a header Content-Type: application/json..." }
                 resp = jsonify(message)
                 return resp
 
@@ -99,7 +99,7 @@ class peopleId(Resource):
             else:
                 print("The user is not in the Database")
                 message = {'status': 404,
-                           'message': "The user is not in the Database..." + request.url}
+                           'message': "The user is not in the Database..." }
                 resp = jsonify(message)
                 return resp
 
@@ -133,27 +133,27 @@ class peopleId(Resource):
                     print("Printing update query")
                     print(query)
                     cur.execute(query)
-                    message = {'status': 200, 'message': "Put executed..." + request.url}
+                    message = {'status': 200, 'message': "Put executed..." }
                     resp = jsonify(message)
                     return resp
                 else:
                     print("The user is not in the Database")
                     message = {'status': 404,
-                               'message': "The user is not in the Database..." + request.url}
+                               'message': "The user is not in the Database..." }
                     resp = jsonify(message)
                     return resp
 
             else:
                 print("The Post must have a header CONTENT-TYPE: APPLICATION/JSON")
                 message = {'status': 400,
-                    'message': "The Put must have a header Content-Type: application/json..." + request.url}
+                    'message': "The Put must have a header Content-Type: application/json..." }
                 resp = jsonify(message)
                 return resp
 
         except:
             print("Can't response the put the request")
             message = {'status': 500,
-                       'message': "Can't response the put the request, please check your request..." + request.url}
+                       'message': "Can't response the put the request, please check your request..." }
             resp = jsonify(message)
             return resp
 
@@ -175,13 +175,13 @@ class peopleId(Resource):
                 print("Printing update query")
                 print(query)
                 cur.execute(query)
-                message = {'status': 200, 'message': "Delete executed..." + request.url}
+                message = {'status': 200, 'message': "Delete executed..." }
                 resp = jsonify(message)
                 return resp
             else:
                 print("The user is not in the Database")
                 message = {'status': 404,
-                            'message': "The user is not in the Database..." + request.url}
+                            'message': "The user is not in the Database..." }
                 resp = jsonify(message)
                 return resp
 
@@ -189,7 +189,7 @@ class peopleId(Resource):
         except:
             print("Can't response the put the request")
             message = {'status': 500,
-                       'message': "Can't response the put the request, please check your request..." + request.url}
+                       'message': "Can't response the put the request, please check your request..." }
             resp = jsonify(message)
             return resp
 
