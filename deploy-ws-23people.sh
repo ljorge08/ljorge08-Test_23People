@@ -30,4 +30,4 @@ cp /home/ljorge08/mysql.conf /home/ljorge08/ws/23people/conf
 #Starting the application
 
 echo "#Starting the application"
-python /home/ljorge08/ws/23people/WS_23people.py &
+nohup python /home/ljorge08/ws/23people/WS_23people.py > /home/ljorge08/logs/ws/23people/23people_${days}.log &
